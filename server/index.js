@@ -11,7 +11,7 @@ const Employee = require('./models/employee');
 const DB_HOST = "cluster0.z7sm5qd.mongodb.net";
 const DB_USER = "aaloreabi2000";
 const DB_PASSWORD = process.env.PASSWORD;
-const DB_NAME = "comp3133_assignment1";
+const DB_NAME = "comp3133_assignment2";
 const DB_CONNECTION_STRING = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`;
 
 mongoose.connect(DB_CONNECTION_STRING).then(() => {
