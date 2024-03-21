@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const {graphqlHTTP} = require('express-graphql');
+const serverless = require('serverless-http');
 const {buildSchema} = require('graphql');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
@@ -187,3 +188,5 @@ app.use('/graphql', graphqlHTTP({
 }));
 
 app.listen(4000, () => console.log('Express GraphQL Server Now Running On http://localhost:4000/graphql'));
+
+module.exports = serverless(app);
