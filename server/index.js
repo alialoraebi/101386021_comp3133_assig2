@@ -31,6 +31,7 @@ const schema = buildSchema(`
 
     type Mutation {
         signup(username: String!, email: String!, password: String!): SignUpResponse
+        deleteUser(id: ID!): String
         addEmployee(first_name: String!, last_name: String!, email: String!, gender: String!, salary: Float!): Employee
         updateEmployee(id: ID!, first_name: String, last_name: String, email: String, gender: String, salary: Float): Employee
         deleteEmployee(id: ID!): String
@@ -104,6 +105,19 @@ const root = {
             return { message: "Login successful" };
         } catch (error) {
             throw new Error(error.message || "An error occurred during login.");
+        }
+    },
+
+    deleteUser: async ({ id }) => {
+        try {
+            const user = await userModel.findById(id);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            await userModel.deleteOne({ _id: id });
+            return 'User deleted successfully';
+        } catch (err) {
+            throw new Error(err.message || 'An error occurred while deleting user.');
         }
     },
 
