@@ -1,14 +1,10 @@
-<!-- Using Angular Material Toolbar and Buttons -->
-<mat-toolbar class="flex justify-between p-4">
-    <span class="text-blue-500 font-bold">Employee Management App</span>
-
-    <div *ngIf="!(authService.isLoggedIn$ | async); else loggedInSection">
-        <button mat-button routerLink="/login" class="text-blue-500 hover:text-blue-700">Login</button>
-        <span class="mx-2">|</span>
-        <button mat-button routerLink="/signup" class="text-blue-500 hover:text-blue-700">Sign Up</button>
+<mat-toolbar color="primary" class="flex justify-between">
+    <span>Employee Management System</span>
+    <div *ngIf="!authService.isLoggedIn; else loggedIn">
+        <button mat-button routerLink="/signup">Sign up</button>
+        <button mat-button routerLink="/login">Login</button>
     </div>
-
-    <ng-template #loggedInSection>
-        <button mat-button routerLink="/logout" class="text-blue-500 hover:text-blue-700">Logout</button>
+    <ng-template #loggedIn>
+        <button mat-button (click)="authService.logout()">Logout</button>
     </ng-template>
 </mat-toolbar>

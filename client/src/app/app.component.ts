@@ -1,19 +1,15 @@
 import { Component } from '@angular/core';
-import { ApolloClientService } from '../../apollo-client.service';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-    selector: 'app-root',
-    standalone: true,
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css',
-    imports: [RouterOutlet, NavbarComponent]
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, NavbarComponent, HttpClientModule], 
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    constructor(private apolloClientService: ApolloClientService) { }
-
-    public isLoggedIn(): boolean {
-        return true;
-    }
+  title = 'client';
 }

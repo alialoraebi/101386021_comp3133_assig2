@@ -1,90 +1,51 @@
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-}
-
-interface LoginResponse {
-  login: {
-    message: string;
-    user: User;
-  };
-}
-
-interface SignupResponse {
-  signup: {
-    message: string;
-    user: User;
-  };
-}
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private _isLoggedIn = new BehaviorSubject<boolean>(false);
-  isLoggedIn$: Observable<boolean> = this._isLoggedIn.asObservable();
+  isLoggedIn = false;
+  private apiUrl = 'http://localhost:4000/graphql'; 
 
-  constructor(private apollo: Apollo) { }
+  constructor(private http: HttpClient) { }
 
-  login(username: string, password: string) {
-    return this.apollo.mutate<LoginResponse>({
-      mutation: gql`
-        mutation Login($username: String!, $password: String!) {
-          login(username: $username, password: $password) {
-            message
-            user {
-              id
-              username
-              email
-            }
+  login(username: string, password: string): Observable<any> {
+    const query = {
+      query: `{
+        login(username: "${username}", password: "${password}") {
+          message
+          user {
+            id
+            username
+            email
           }
         }
-      `,
-      variables: {
-        username,
-        password
-      }
-    }).pipe(tap(result => {
-      if (result.data?.login.message === 'Success') {
-        this._isLoggedIn.next(true);
-      }
-    }));
+      }`
+    };
+
+    return this.http.post(this.apiUrl, query);
   }
 
-  signup(username: string, email: string, password: string) {
-    return this.apollo.mutate<SignupResponse>({
-      mutation: gql`
-        mutation Signup($username: String!, $email: String!, $password: String!) {
-          signup(username: $username, email: $email, password: $password) {
-            message
-            user {
-              id
-              username
-              email
-            }
+  signup(username: string, email: string, password: string): Observable<any> {
+    const query = {
+      query: `mutation {
+        signup(username: "${username}", email: "${email}", password: "${password}") {
+          message
+          user {
+            id
+            username
+            email
           }
         }
-      `,
-      variables: {
-        username,
-        email,
-        password
-      }
-    }).pipe(tap(result => {
-      if (result.data?.signup.message === 'Success') {
-        this._isLoggedIn.next(true);
-      }
-    }));
+      }`
+    };
+
+    return this.http.post(this.apiUrl, query);
   }
 
   logout() {
-    this._isLoggedIn.next(false);
+    this.isLoggedIn = false;
   }
 }
