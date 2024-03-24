@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,45 +8,58 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   isLoggedIn = false;
-  private apiUrl = 'http://localhost:4000/graphql'; 
 
-  constructor(private http: HttpClient) { }
+  constructor(private apollo: Apollo) { }
 
   login(username: string, password: string): Observable<any> {
-    const query = {
-      query: `{
-        login(username: "${username}", password: "${password}") {
-          message
-          user {
-            id
-            username
-            email
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation Login($username: String!, $password: String!) {
+          login(username: $username, password: $password) {
+            message
+            user {
+              id
+              username
+              email
+            }
           }
         }
-      }`
-    };
-
-    return this.http.post(this.apiUrl, query);
+      `,
+      variables: {
+        username,
+        password
+      }
+    });
   }
 
   signup(username: string, email: string, password: string): Observable<any> {
-    const query = {
-      query: `mutation {
-        signup(username: "${username}", email: "${email}", password: "${password}") {
-          message
-          user {
-            id
-            username
-            email
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation Signup($username: String!, $email: String!, $password: String!) {
+          signup(username: $username, email: $email, password: $password) {
+            message
+            user {
+              id
+              username
+              email
+            }
           }
         }
-      }`
-    };
-
-    return this.http.post(this.apiUrl, query);
+      `,
+      variables: {
+        username,
+        email,
+        password
+      }
+    });
   }
 
-  logout() {
-    this.isLoggedIn = false;
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    return token ? true : false;
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
   }
 }
