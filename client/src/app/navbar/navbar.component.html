@@ -1,10 +1,10 @@
 <mat-toolbar color="primary" class="flex justify-between">
     <span>Employee Management System</span>
-    <div *ngIf="!authService.isLoggedIn; else loggedIn">
-        <button mat-button routerLink="/signup">Sign up</button>
-        <button mat-button routerLink="/login">Login</button>
+    <div *ngIf="!authService.isLoggedIn; else loggedIn" class="space-x-4">
+        <button mat-button routerLink="/signup" class="hover:text-violet-300">Sign up</button>
+        <button mat-button routerLink="/login" class="hover:text-violet-300">Login</button>
     </div>
     <ng-template #loggedIn>
-        <button mat-button (click)="authService.logout()">Logout</button>
+        <button mat-button (click)="authService.logout()" class="hover:text-red-500">Logout</button>
     </ng-template>
 </mat-toolbar>
