@@ -1,1 +1,39 @@
-<p>signup works!</p>
+<div class="flex flex-col min-h-screen bg-gray-100">
+  <app-navbar></app-navbar>
+  <div class="flex-grow flex justify-center items-center">
+    <div class="w-full max-w-md p-8 space-y-4 bg-white shadow-lg rounded-lg">
+      <h1 class="text-2xl font-bold mb-4">Sign Up</h1>
+
+      <div *ngIf="isSignupSuccessful" class="text-green-600">
+        Account created successfully, <a routerLink="/login" class="text-blue-500 hover:text-blue-700">login here</a>.
+      </div>
+
+      <form *ngIf="!isSignupSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" class="space-y-4">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" formControlName="username" aria-label="Username">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" aria-label="Email">
+          <mat-error *ngIf="signupForm.controls['email'].invalid && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
+            Please enter a valid email address.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" aria-label="Password">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="w-full">Sign Up</button>
+      </form>
+
+      <p *ngIf="!isSignupSuccessful" class="text-center mt-4">
+        Have an account? Log in 
+        <a routerLink="/login" class="text-blue-500 hover:text-blue-700">here</a>.
+      </p>
+    </div>
+  </div>
+</div>
