@@ -203,7 +203,7 @@ app.use(cors());
 server.start().then(() => {
     server.applyMiddleware({ app });
 
-    app.listen(4000, () => console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`));
+    app.listen(4000, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`));
 });
 
 module.exports = serverless(app);
