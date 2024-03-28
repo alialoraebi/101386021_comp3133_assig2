@@ -8,6 +8,10 @@
         Account created successfully, <a routerLink="/login" class="text-blue-500 hover:text-blue-700">login here</a>.
       </div>
 
+      <div *ngIf="userExists" class="text-red-600">
+        User already exists, please <a routerLink="/login" class="text-blue-500 hover:text-blue-700">login</a>.
+      </div>
+
       <form *ngIf="!isSignupSuccessful" [formGroup]="signupForm" (ngSubmit)="signup()" class="space-y-4">
         <mat-form-field appearance="fill" class="w-full">
           <mat-label>Username</mat-label>

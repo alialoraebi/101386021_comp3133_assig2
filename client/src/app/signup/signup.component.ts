@@ -18,7 +18,8 @@ import { CommonModule } from '@angular/common';
 })
 export class SignupComponent {
   signupForm: FormGroup;
-  isSignupSuccessful = false; 
+  isSignupSuccessful = false;
+  userExists = false; 
 
   constructor(private authService: AuthService, private fb: FormBuilder) { 
     this.signupForm = this.fb.group({
@@ -38,6 +39,10 @@ export class SignupComponent {
         },
         error: (error) => {
           console.error('Signup failed:', error);
+          console.log('Error object:', error); 
+          if (error.message.includes('Username already exists')) { 
+            this.userExists = true;
+          }
         }
       });
     }
