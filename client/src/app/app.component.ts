@@ -5,7 +5,7 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Apollo } from 'apollo-angular';
-import { getUsers } from './graphql.operations';
+import { LIST_EMPLOYEES } from './graphql/graphql.queries';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,7 @@ export class AppComponent {
 
   getUsers() {
     this.apollo.watchQuery({
-      query: getUsers
+      query: LIST_EMPLOYEES
     }).valueChanges.subscribe(({data, loading, errors}) => {
       if (loading) {
         console.log('Loading...');

@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const {graphqlHTTP} = require('express-graphql');
+// const {graphqlHTTP} = require('express-graphql');
 const serverless = require('serverless-http');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
@@ -194,16 +194,21 @@ const root = {
     }
 };
 
-const server = new ApolloServer({ typeDefs: schema, resolvers: root });
 
-const app = express();
-app.use(cors());
+const startServer = async () => {
+  const server = new ApolloServer({ typeDefs: schema, resolvers: root });
 
-// Start the server before applying middleware
-server.start().then(() => {
-    server.applyMiddleware({ app });
+  const app = express();
+  app.use(cors());
 
+  await server.start();
+  server.applyMiddleware({ app });
+
+  if (process.env.NODE_ENV !== 'production') {
     app.listen(4000, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`));
-});
+  }
 
-module.exports = serverless(app);
+  module.exports.handler = serverless(app);
+};
+
+startServer();

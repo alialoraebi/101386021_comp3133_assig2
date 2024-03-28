@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
 import { Observable } from 'rxjs';
+import { LOGIN, SIGNUP } from './graphql/graphql.queries';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +13,7 @@ export class AuthService {
 
   login(username: string, password: string): Observable<any> {
     return this.apollo.mutate({
-      mutation: gql`
-        mutation Login($username: String!, $password: String!) {
-          login(username: $username, password: $password) {
-            message
-            user {
-              id
-              username
-              email
-            }
-          }
-        }
-      `,
+      mutation: LOGIN,
       variables: {
         username,
         password
@@ -34,22 +23,13 @@ export class AuthService {
 
   signup(username: string, email: string, password: string): Observable<any> {
     return this.apollo.mutate({
-      mutation: gql`
-        mutation Signup($username: String!, $email: String!, $password: String!) {
-          signup(username: $username, email: $email, password: $password) {
-            message
-            user {
-              id
-              username
-              email
-            }
-          }
-        }
-      `,
+      mutation: SIGNUP,
       variables: {
-        username,
-        email,
-        password
+        user: {
+          username,
+          email,
+          password
+        }
       }
     });
   }
