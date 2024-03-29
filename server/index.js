@@ -64,12 +64,18 @@ const schema = gql(`
     }
     
 
+    enum Gender {
+        Male
+        Female
+        Other
+    }
+      
     type Employee {
         id: ID!
         first_name: String!
         last_name: String!
         email: String!
-        gender: String
+        gender: Gender
         salary: Float!
     }
 
