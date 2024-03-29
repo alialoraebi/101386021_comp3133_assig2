@@ -3,7 +3,7 @@ import { AuthService } from '../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,11 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(
+    private authService: AuthService, 
+    private fb: FormBuilder,
+    private router: Router
+    ) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -32,11 +36,12 @@ export class LoginComponent {
       this.authService.login(username, password).subscribe({
         next: (response) => {
           console.log('Login successful:', response);
+          this.router.navigate(['/employee-page']);
         },
         error: (error) => {
           console.error('Login failed:', error);
         }
       });
     }
-  }
+  }   
 }

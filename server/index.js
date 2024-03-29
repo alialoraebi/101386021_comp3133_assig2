@@ -8,6 +8,7 @@ const userModel = require('./models/user');
 const Employee = require('./models/employee');
 const cors = require('cors');
 const { ApolloServer, gql } = require('apollo-server-express');
+const jwt = require('jsonwebtoken');
 
 // MongoDB Connection
 const DB_HOST = "cluster0.z7sm5qd.mongodb.net";
@@ -81,24 +82,33 @@ const schema = gql(`
     }
 `);
 
+
+
 // Root resolver
 const root = {
     Query: {
         login: async (_, { username, password }) => {
             try {
                 const user = await userModel.findOne({ username });
-
+        
                 if (!user) {
                     throw new Error("User not found");
                 }
-
+        
                 const passwordMatch = await bcrypt.compare(password, user.password);
-
+        
                 if (!passwordMatch) {
                     throw new Error("Invalid password");
                 }
-
-                return { message: "Login successful", user };
+        
+                // Generate a token
+                const token = jwt.sign(
+                  { userId: user.id, email: user.email },
+                  process.env.JWT_SECRET, 
+                  { expiresIn: '1h' } 
+                );
+        
+                return { message: "Login successful", user, token };
             } catch (error) {
                 throw new Error(error.message || "An error occurred during login.");
             }
