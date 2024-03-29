@@ -4,6 +4,7 @@ import { ApplicationConfig, inject } from '@angular/core';
 import { ApolloClientOptions, InMemoryCache } from '@apollo/client/core';
 
 export const uri = 'http://localhost:4000/graphql'; 
+// export const uri = 'https://emp-management-app-eta.vercel.app/graphql';
 export function apolloOptionsFactory(): ApolloClientOptions<any> {
   const httpLink = inject(HttpLink);
   return {
