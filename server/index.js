@@ -212,19 +212,35 @@ const root = {
 
 
 const startServer = async () => {
-  const server = new ApolloServer({ typeDefs: schema, resolvers: root });
-
-  const app = express();
-  app.use(cors());
-
-  await server.start();
-  server.applyMiddleware({ app });
-
-  if (process.env.NODE_ENV !== 'production') {
-    app.listen(4000, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`));
-  }
-
-  module.exports.handler = serverless(app);
-};
-
-startServer();
+    const server = new ApolloServer({ 
+      typeDefs: schema, 
+      resolvers: root,
+      cors: {
+        origin: '*', 
+        credentials: true
+      }
+    });
+  
+    const app = express();
+  
+    await server.start();
+    server.applyMiddleware({ app });
+  
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(4000, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`));
+    }
+  
+    module.exports.handler = (req, res) => {
+      if (req.method === 'OPTIONS') {
+        res.setHeader('Access-Control-Allow-Origin', '*'); 
+        res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.end();
+        return;
+      }
+  
+      return serverless(app)(req, res);
+    };
+  };
+  
+  startServer();
