@@ -212,6 +212,7 @@ const root = {
 
 
 const startServer = async () => {
+    const port = process.env.PORT || 4000;     
     const server = new ApolloServer({ 
       typeDefs: schema, 
       resolvers: root,
@@ -229,6 +230,12 @@ const startServer = async () => {
     if (process.env.NODE_ENV !== 'production') {
       app.listen(4000, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`));
     }
+
+    // if (process.env.NODE_ENV !== 'production') {
+    //     app.listen(port, '0.0.0.0', () => {
+    //       console.log(`Server is running on http://0.0.0.0:${port}${server.graphqlPath}`);
+    //     });
+    //   }
   
     module.exports.handler = (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*'); 
