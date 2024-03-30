@@ -10,9 +10,10 @@ export class AuthGuardService {
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(): boolean | UrlTree {
-    if (!this.authService.isLoggedIn) { 
+    if (this.authService.isAuthenticated()) {
+      return true;
+    } else {
       return this.router.createUrlTree(['/login']);
     }
-    return true;
   }
 }

@@ -6,6 +6,7 @@ import { EmployeePageComponent } from './employee-page/employee-page.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',

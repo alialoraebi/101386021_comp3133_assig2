@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSelectModule, 
     MatFormFieldModule, 
     MatInputModule, 
-    MatButtonModule
+    MatButtonModule,
+    
   ],
   templateUrl: './add-employee.component.html',
   styleUrls: ['./add-employee.component.css']
@@ -34,7 +36,8 @@ export class AddEmployeeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private apollo: Apollo 
+    private apollo: Apollo,
+    private dialogRef: MatDialogRef<AddEmployeeComponent> 
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +61,8 @@ export class AddEmployeeComponent implements OnInit {
         next: (response) => {
           console.log('Employee added successfully:', response);
           this.isEmployeeAdded = true;
-          this.router.navigate(['/employee-page']);
+          // this.router.navigate(['/employee-page']);
+          this.dialogRef.close();
         },
         error: (error) => {
           console.error('Error adding employee:', error);

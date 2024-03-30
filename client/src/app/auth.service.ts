@@ -1,9 +1,10 @@
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LOGIN, SIGNUP, ADD_EMPLOYEE } from './graphql/graphql.queries';
+import { isPlatformBrowser } from '@angular/common';
 
 interface User {
   id: string;
@@ -27,7 +28,15 @@ interface LoginResponse {
 export class AuthService {
   isLoggedIn = false;
 
-  constructor(private apollo: Apollo, private router: Router) { }
+  constructor(
+    private apollo: Apollo, 
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+    ) { 
+      if (isPlatformBrowser(this.platformId)) {
+        this.isLoggedIn = !!localStorage.getItem('token');
+      }
+  }
 
   login(username: string, password: string): Observable<any> {
     return this.apollo.query<LoginResponse>({
@@ -72,8 +81,10 @@ export class AuthService {
   }    
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-    return token ? true : false;
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('token');
+    }
+    return this.isLoggedIn;
   }
 
   logout(): void {

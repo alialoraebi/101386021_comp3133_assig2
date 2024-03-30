@@ -5,6 +5,8 @@ import { Apollo } from 'apollo-angular';
 import { LIST_EMPLOYEES, DELETE_EMPLOYEE } from '../graphql/graphql.queries';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 
 interface EmployeeData {
   listEmployees: Employee[];
@@ -23,7 +25,13 @@ interface Employee {
 @Component({
   selector: 'app-employee-page',
   standalone: true,
-  imports: [NavbarComponent, MatTableModule, CommonModule, RouterLink],
+  imports: [
+    NavbarComponent, 
+    MatTableModule, 
+    CommonModule, 
+    RouterLink,
+    AddEmployeeComponent,
+  ],
   templateUrl: './employee-page.component.html',
   styleUrl: './employee-page.component.css'
 })
@@ -31,7 +39,7 @@ interface Employee {
 export class EmployeePageComponent implements OnInit {
   employees: Employee[] = [];
 
-  constructor(private apollo: Apollo, private router: Router) { } 
+  constructor(private apollo: Apollo, private router: Router, public dialog: MatDialog) { } 
 
   ngOnInit() {
     this.getEmployees();
@@ -44,8 +52,22 @@ export class EmployeePageComponent implements OnInit {
       });
   }
 
-  addEmployee() {
-    this.router.navigate(['/add-employee']);
+  // addEmployee() {
+  //   this.router.navigate(['/add-employee']);
+  // }
+
+  openAddEmployeeDialog(): void {
+    const dialogRef = this.dialog.open(AddEmployeeComponent, {
+      width: '400px',
+      height: '700px',
+      
+      // ... any other configuration you need
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // Handle after the dialog is closed, like refreshing the employee list
+      this.getEmployees();
+    });
   }
 
   deleteEmployee(id: string) {

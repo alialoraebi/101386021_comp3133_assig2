@@ -4,12 +4,12 @@
       <div class="w-full max-w-3xl p-8 space-y-4 bg-white shadow-lg rounded-lg">
         <h1 class="text-2xl font-bold mb-4">Employee List</h1>
   
-        <button mat-raised-button color="primary" (click)="addEmployee()" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button mat-raised-button color="primary" (click)="openAddEmployeeDialog()" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Add Employee
         </button>
   
         <div *ngIf="employees.length === 0" class="text-center text-gray-500">
-          No employees in the system, <a (click)="addEmployee()" class="text-blue-500 hover:text-blue-700 cursor-pointer">add employee here</a>.
+          No employees in the system, <a (click)="openAddEmployeeDialog()" class="text-blue-500 hover:text-blue-700 cursor-pointer">add employee here</a>.
         </div>
   
         <table *ngIf="employees.length > 0" mat-table [dataSource]="employees" class="w-full">
