@@ -13,6 +13,10 @@
             <mat-label>Password</mat-label>
             <input matInput type="password" formControlName="password" aria-label="Password">
           </mat-form-field>
+
+          <div *ngIf="loginError" class="text-red-600 text-center">
+            {{ loginError }}
+          </div>
   
           <button mat-raised-button color="primary" type="submit" class="w-full">Log In</button>
         </form>

@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  loginError: string | null = null;
 
   constructor(
     private authService: AuthService, 
@@ -40,6 +41,7 @@ export class LoginComponent {
         },
         error: (error) => {
           console.error('Login failed:', error);
+          this.loginError = 'Invalid username or password';
         }
       });
     }
