@@ -46,9 +46,9 @@ export class EmployeePageComponent implements OnInit {
   }
 
   getEmployees() {
-    this.apollo.watchQuery<EmployeeData>({ query: LIST_EMPLOYEES })
+    this.apollo.watchQuery<EmployeeData>({ query: LIST_EMPLOYEES, fetchPolicy: 'network-only' })
       .valueChanges.subscribe(result => {
-        this.employees = result.data && result.data.listEmployees;
+        this.employees = result?.data?.listEmployees;
       });
   }
 
@@ -68,9 +68,33 @@ export class EmployeePageComponent implements OnInit {
   }
 
   deleteEmployee(id: string) {
-    this.apollo.mutate({ mutation: DELETE_EMPLOYEE, variables: { id } }).subscribe(() => {
-      this.getEmployees();
-    });
+    if (confirm('Are you sure you want to delete this employee?')) {
+      this.apollo.mutate({
+        mutation: DELETE_EMPLOYEE,
+        variables: { id },
+        update: (cache) => {
+          const existingData = cache.readQuery<EmployeeData>({ query: LIST_EMPLOYEES });
+      
+          if (existingData && existingData.listEmployees) {
+            const newEmployees = existingData.listEmployees.filter(employee => employee.id !== id);
+            cache.writeQuery({
+              query: LIST_EMPLOYEES,
+              data: { listEmployees: newEmployees },
+            });
+          }
+        }
+      }).subscribe({
+        next: response => {
+          console.log('Employee deleted successfully:', response);
+        },
+        error: error => {
+          console.error('Error deleting employee:', error);
+        }
+      });
+    } else {
+      // User clicked 'Cancel', do nothing
+      console.log('Delete operation canceled by user');
+    }
   }
 
   updateEmployee(id: string) {
