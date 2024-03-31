@@ -58,6 +58,7 @@ Replace `<Your MongoDB Password>` and `<Your JWT Secret>` with your actual Mongo
 ```bash
 ng serve
 ```
+or
 ```bash
  ng serve --open
 ```
