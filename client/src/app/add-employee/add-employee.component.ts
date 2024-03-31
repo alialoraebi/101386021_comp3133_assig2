@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Apollo } from 'apollo-angular';
 import { ADD_EMPLOYEE, LIST_EMPLOYEES } from '../graphql/graphql.queries';
@@ -23,7 +22,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule, 
     MatInputModule, 
     MatButtonModule,
-    
   ],
   templateUrl: './add-employee.component.html',
   styleUrls: ['./add-employee.component.css']
@@ -35,7 +33,6 @@ export class AddEmployeeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private apollo: Apollo,
     private dialogRef: MatDialogRef<AddEmployeeComponent> 
   ) {}
@@ -61,7 +58,6 @@ export class AddEmployeeComponent implements OnInit {
         next: (response) => {
           console.log('Employee added successfully:', response);
           this.isEmployeeAdded = true;
-          // this.router.navigate(['/employee-page']);
           this.dialogRef.close();
         },
         error: (error) => {

@@ -19,7 +19,6 @@ interface Employee {
   email: string
   gender: string;
   salary: number;
-  
 }
 
 @Component({
@@ -52,13 +51,9 @@ export class EmployeePageComponent implements OnInit {
       });
   }
 
-  // addEmployee() {
-  //   this.router.navigate(['/add-employee']);
-  // }
-
   openAddEmployeeDialog(): void {
     const dialogRef = this.dialog.open(AddEmployeeComponent, {
-      width: '400px',
+      width: '450px',
       height: '700px',
     });
 
@@ -92,7 +87,6 @@ export class EmployeePageComponent implements OnInit {
         }
       });
     } else {
-      // User clicked 'Cancel', do nothing
       console.log('Delete operation canceled by user');
     }
   }
