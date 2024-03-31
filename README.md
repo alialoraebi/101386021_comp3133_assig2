@@ -56,7 +56,10 @@ Replace `<Your MongoDB Password>` and `<Your JWT Secret>` with your actual Mongo
 **Start the Angular Server**
 
 ```bash
-ng serve or ng serve --open
+ng serve
+```
+```bash
+ ng serve --open
 ```
 
 ### Access the Application
