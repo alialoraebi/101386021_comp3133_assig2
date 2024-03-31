@@ -65,6 +65,11 @@ export class EmployeePageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.getEmployees();
+      if (result?.status === 'success') {
+        console.log('Employee added successfully');
+      } else if (result?.status === 'error') {
+        console.error('Error adding employee');
+      }
     });
   }
 
