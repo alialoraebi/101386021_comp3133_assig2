@@ -1,10 +1,10 @@
 <mat-toolbar color="primary" class="flex justify-between">
-    <span class="select-none">Employee Management App</span>
+    <span class="text-base md:text-lg select-none">Employee Management App</span>
     <div *ngIf="!authService.isLoggedIn; else loggedIn" class="space-x-4">
-        <a mat-button routerLink="/signup" class="select-none hover:text-violet-300">Sign up</a>
-        <a mat-button routerLink="/login" class="select-none hover:text-violet-300">Login</a>
+        <a mat-button routerLink="/signup" class="text-base md:text-lg select-none hover:text-violet-300">Sign up</a>
+        <a mat-button routerLink="/login" class="text-base md:text-lg select-none hover:text-violet-300">Login</a>
     </div>
     <ng-template #loggedIn>
-        <button mat-button (click)="authService.logout()" class="select-none hover:text-red-500">Logout</button>
+        <button mat-button (click)="authService.logout()" class="text-base md:text-lg select-none hover:text-red-500">Logout</button>
     </ng-template>
 </mat-toolbar>

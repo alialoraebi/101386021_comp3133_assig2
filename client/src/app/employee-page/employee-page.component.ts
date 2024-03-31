@@ -60,12 +60,9 @@ export class EmployeePageComponent implements OnInit {
     const dialogRef = this.dialog.open(AddEmployeeComponent, {
       width: '400px',
       height: '700px',
-      
-      // ... any other configuration you need
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // Handle after the dialog is closed, like refreshing the employee list
       this.getEmployees();
     });
   }

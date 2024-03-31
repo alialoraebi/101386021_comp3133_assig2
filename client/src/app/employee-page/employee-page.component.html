@@ -1,18 +1,19 @@
 <div class="flex flex-col min-h-screen bg-gray-100">
-    <app-navbar></app-navbar>
-    <div class="flex-grow flex justify-center items-center">
-      <div class="w-full max-w-3xl p-8 space-y-4 bg-white shadow-lg rounded-lg">
-        <h1 class="text-2xl font-bold mb-4">Employee List</h1>
-  
-        <button mat-raised-button color="primary" (click)="openAddEmployeeDialog()" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add Employee
-        </button>
-  
-        <div *ngIf="employees.length === 0" class="text-center text-gray-500">
-          No employees in the system, <a (click)="openAddEmployeeDialog()" class="text-blue-500 hover:text-blue-700 cursor-pointer">add employee here</a>.
-        </div>
-  
-        <table *ngIf="employees.length > 0" mat-table [dataSource]="employees" class="w-full">
+  <app-navbar></app-navbar>
+  <div class="flex-grow flex justify-center items-center">
+    <div class="w-full max-w-3xl p-8 space-y-4 bg-white shadow-lg rounded-lg">
+      <h1 class="text-2xl font-bold mb-4">Employee List</h1>
+
+      <button mat-raised-button color="primary" (click)="openAddEmployeeDialog()" class="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Add Employee
+      </button>
+
+      <div *ngIf="employees.length === 0" class="text-center text-gray-500">
+        No employees in the system, <a (click)="openAddEmployeeDialog()" class="text-blue-500 hover:text-blue-700 cursor-pointer">add employee here</a>.
+      </div>
+
+      <div class="overflow-x-auto sm:w-full">
+        <table *ngIf="employees.length > 0" mat-table [dataSource]="employees" class="min-w-full">
           <ng-container matColumnDef="first_name">
             <th mat-header-cell *matHeaderCellDef>First Name</th>
             <td mat-cell *matCellDef="let employee">{{employee.first_name}}</td>
@@ -31,9 +32,9 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let employee">
-              <button mat-button color="primary" (click)="updateEmployee(employee.id)">Update</button>
-              <button mat-button color="warn" (click)="deleteEmployee(employee.id)">Delete</button>
-              <button mat-button color="accent" [routerLink]="['/employee', employee.id]">View</button>
+              <button mat-button color="primary" (click)="updateEmployee(employee.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Edit</button>
+              <button mat-button color="warn" (click)="deleteEmployee(employee.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button>
+              <button mat-button color="accent" [routerLink]="['/employee', employee.id]" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">View</button>
             </td>
           </ng-container>
   
@@ -43,3 +44,4 @@
       </div>
     </div>
   </div>
+</div>
