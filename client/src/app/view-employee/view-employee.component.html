@@ -1,0 +1,24 @@
+<div class="flex justify-center items-center bg-gray-100 h-screen p-6">
+    <div class="w-full max-w-md bg-white shadow-2xl rounded-lg p-6">
+      <h1 class="text-2xl font-bold mb-6 text-gray-800">Employee Details</h1>
+      <div *ngIf="employee" class="space-y-3">
+        <div class="text-lg">
+          <span class="font-semibold">First Name: </span> <span class="text-gray-600">{{employee.first_name}}</span>
+        </div>
+        <div class="text-lg">
+          <span class="font-semibold">Last Name: </span> <span class="text-gray-600">{{employee.last_name}}</span>
+        </div>
+        <div class="text-lg">
+          <span class="font-semibold">Email: </span> <span class="text-gray-600">{{employee.email}}</span>
+        </div>
+        <div class="text-lg">
+          <span class="font-semibold">Gender: </span> <span class="text-gray-600">{{employee.gender}}</span>
+        </div>
+        <div class="text-lg">
+          <span class="font-semibold">Salary: </span> <span class="text-gray-600">{{employee.salary | currency}}</span>
+        </div>
+      </div>
+      <button mat-raised-button color="accent" class="w-full mt-6 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="closeDialog()">Close</button>
+        
+    </div>
+</div>

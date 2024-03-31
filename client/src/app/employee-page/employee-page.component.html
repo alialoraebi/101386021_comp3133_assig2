@@ -32,7 +32,7 @@
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let employee">
-              <button mat-button color="accent" [routerLink]="['/employee', employee.id]" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-20 h-8 mr-2">View</button>
+              <button mat-button color="accent" (click)="viewEmployee(employee.id)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded w-20 h-8 mr-2">View</button>
               <button mat-button color="primary" (click)="updateEmployee(employee.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded w-20 h-8 mr-2">Edit</button>
               <button mat-button color="warn" (click)="deleteEmployee(employee.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded w-20 h-8">Delete</button>
             </td>

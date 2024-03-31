@@ -7,6 +7,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
+import { UpdateEmployeeComponent } from '../update-employee/update-employee.component';
+import { ViewEmployeeComponent } from '../view-employee/view-employee.component';
 
 interface EmployeeData {
   listEmployees: Employee[];
@@ -30,6 +32,8 @@ interface Employee {
     CommonModule, 
     RouterLink,
     AddEmployeeComponent,
+    UpdateEmployeeComponent,
+    ViewEmployeeComponent
   ],
   templateUrl: './employee-page.component.html',
   styleUrl: './employee-page.component.css'
@@ -37,6 +41,8 @@ interface Employee {
 
 export class EmployeePageComponent implements OnInit {
   employees: Employee[] = [];
+  isEmployeeUpdated = false;
+  updateEmployeeError = false;
 
   constructor(private apollo: Apollo, private router: Router, public dialog: MatDialog) { } 
 
@@ -59,6 +65,37 @@ export class EmployeePageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.getEmployees();
+    });
+  }
+
+  openUpdateEmployeeDialog(employeeId: string): void {
+    const dialogRef = this.dialog.open(UpdateEmployeeComponent, {
+      width: '450px',
+      height: '700px',
+      data: { employeeId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.getEmployees();
+      if (result?.status === 'success') {
+        this.isEmployeeUpdated = true;
+        this.updateEmployeeError = false;
+      } else if (result?.status === 'error') {
+        this.isEmployeeUpdated = false;
+        this.updateEmployeeError = true;
+      }
+    });
+  }
+
+  viewEmployee(id: string): void {
+    const dialogRef = this.dialog.open(ViewEmployeeComponent, {
+      width: '450px',
+      height: '500px',
+      data: { employeeId: id }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 
@@ -92,6 +129,6 @@ export class EmployeePageComponent implements OnInit {
   }
 
   updateEmployee(id: string) {
-    this.router.navigate(['/update-employee', id]);
+    this.openUpdateEmployeeDialog(id);
   }
 }

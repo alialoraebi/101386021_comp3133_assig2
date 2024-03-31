@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavbarComponent } from '../navbar/navbar.component';
 import { Apollo } from 'apollo-angular';
 import { ADD_EMPLOYEE, LIST_EMPLOYEES } from '../graphql/graphql.queries';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +15,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   imports: [
     CommonModule, 
-    NavbarComponent, 
     ReactiveFormsModule, 
     MatSelectModule, 
     MatFormFieldModule, 
