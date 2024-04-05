@@ -107,7 +107,6 @@ const root = {
                     throw new Error("Invalid password");
                 }
         
-                // Generate a token
                 const token = jwt.sign(
                   { userId: user.id, email: user.email },
                   process.env.JWT_SECRET, 
